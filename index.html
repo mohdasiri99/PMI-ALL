@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملف مشروع الكوتشينج التعليمي - النسخة الموحدة الشاملة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #006C35; /* Saudi Green */
+            --primary-dark: #004d26;
+            --accent: #Cda434; /* Gold */
+            --secondary: #1F2937; /* Dark Gray */
+            --light-bg: #F9FAFB;
+            --white: #ffffff;
+            --border: #E5E7EB;
+            --phase-init: #3b82f6;
+            --phase-plan: #f59e0b;
+            --phase-exec: #10b981;
+            --phase-ctrl: #8b5cf6;
+            --phase-close: #ef4444;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--secondary);
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            min-height: 297mm;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 { font-family: 'Tajawal', sans-serif; color: var(--primary); }
+        h1 { font-weight: 800; line-height: 1.2; }
+        
+        /* --- Cover Page --- */
+        .cover-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Height removed for print safety, padding handles spacing */
+            padding: 60px 40px;
+            border: 8px double var(--primary);
+            margin-bottom: 0;
+            page-break-after: always; /* Force new page after cover */
+            min-height: 800px; /* Visual height for web view */
+        }
+        .cover-logo { font-size: 100px; color: var(--accent); margin-bottom: 40px; }
+        .cover-title { font-size: 4rem; margin-bottom: 20px; color: var(--primary); }
+        .cover-subtitle { font-size: 2rem; color: var(--secondary); font-weight: 600; margin-bottom: 80px; }
+        .cover-meta { font-size: 1.4rem; color: #555; margin-top: auto; border-top: 2px solid var(--accent); padding-top: 30px; }
+
+        /* --- Section Separators --- */
+        .section-separator {
+            background: var(--primary);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            page-break-before: always; /* Always start on new page */
+            page-break-after: always;  /* Always end with a break */
+            min-height: 600px; /* Ensure vertical centering visual */
+        }
+        .separator-title { font-size: 3.5rem; margin-bottom: 20px; color: white; border-bottom: 4px solid var(--accent); display: inline-block; padding-bottom: 10px; }
+        .separator-desc { font-size: 1.5rem; opacity: 0.9; color: #eee; margin-top: 20px; }
+
+        /* --- Content Layout --- */
+        .content-section { margin-bottom: 40px; page-break-inside: avoid; }
+        
+        .header-top { display: flex; justify-content: space-between; color: #666; font-size: 0.9rem; margin-bottom: 30px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+        
+        .card { 
+            background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; 
+            break-inside: avoid; page-break-inside: avoid;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); 
+        }
+        
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+
+        /* Icons & Titles */
+        .section-title-box { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; page-break-after: avoid; }
+        .icon-box { width: 45px; height: 45px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 1.5rem; }
+        h3 { font-size: 1.8rem; margin: 0; }
+
+        /* Detailed Tables */
+        .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.95rem; }
+        .detail-table th { background: #f3f4f6; padding: 12px; text-align: right; border-bottom: 2px solid var(--primary); font-weight: 700; color: var(--secondary); }
+        .detail-table td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+        /* Prevent table rows from splitting */
+        tr { break-inside: avoid; page-break-inside: avoid; }
+        
+        /* Standard Block Styling */
+        .std-block { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 30px; break-inside: avoid; page-break-inside: avoid; }
+        .std-header { background: var(--primary); color: white; padding: 15px; font-weight: 700; font-size: 1.1rem; border-radius: 8px 8px 0 0; }
+        .std-def { background: #f0fdf4; padding: 15px; border-bottom: 1px solid #eee; color: #166534; font-weight: 600; }
+
+        /* Lifecycle Headers */
+        .ls-header { padding: 10px 15px; color: white; font-weight: 700; border-radius: 5px 5px 0 0; }
+        .bg-init { background-color: var(--phase-init); }
+        .bg-plan { background-color: var(--phase-plan); }
+        .bg-exec { background-color: var(--phase-exec); }
+        .bg-ctrl { background-color: var(--phase-ctrl); }
+        .bg-close { background-color: var(--phase-close); }
+
+        /* Timeline/Gantt */
+        .gantt-wrapper { border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-top: 20px; break-inside: avoid; page-break-inside: avoid; }
+        .gantt-row { display: grid; grid-template-columns: 200px repeat(11, 1fr); gap: 5px; margin-bottom: 8px; align-items: center; font-size: 0.8rem; }
+        .gantt-bar { height: 20px; border-radius: 4px; opacity: 0.8; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+        /* Footer */
+        footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #888; font-size: 0.9rem; page-break-inside: avoid; }
+
+        /* Glossary */
+        .term-col { width: 25%; font-weight: 800; color: var(--primary); background: #f9fafb; }
+
+        /* Print Settings - THE FIX */
+        @media print {
+            body { background: white; margin: 0; }
+            .container { width: 100%; max-width: 100%; box-shadow: none; margin: 0; padding: 0; }
+            
+            /* Cover Page Fix: No fixed height, just force break */
+            .cover-page {
+                height: auto; 
+                min-height: 90vh; /* Ensure it fills view */
+                border: 5px double var(--primary);
+                page-break-after: always;
+                margin-bottom: 0;
+            }
+
+            /* Separator Fix */
+            .section-separator {
+                height: auto;
+                min-height: 50vh; /* Reduce height requirement for separator */
+                padding: 100px 20px;
+                page-break-before: always;
+                page-break-after: always;
+                -webkit-print-color-adjust: exact;
+            }
+
+            /* General Breaks */
+            .page-break { page-break-before: always; }
+            
+            /* Prevent Splitting */
+            h1, h2, h3, h4, .section-title-box { page-break-after: avoid; }
+            .card, .std-block, .info-card, .gantt-wrapper { page-break-inside: avoid; }
+            
+            @page { margin: 1cm; size: A4; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ================= COVER PAGE ================= -->
+    <div class="cover-page">
+        <div>
+            <i class="fa-solid fa-layer-group cover-logo"></i>
+            <h1 class="cover-title">مشروع الكوتشينج التعليمي</h1>
+            <div class="cover-subtitle">منهجية عالمية لتحسين التدريس وتمكين المدرسة</div>
+            <div style="width: 200px; height: 6px; background: var(--accent); margin: 30px auto;"></div>
+        </div>
+        <div class="cover-meta">
+            <p><strong>مبادرة من:</strong> أ. محمد علي عبدالله عسيري</p>
+            <p>كوتش محترف معتمد PCC بمعايير ICF الدولية</p>
+            <br>
+            <p><strong>الإدارة العامة للتعليم بمنطقة عسير</strong></p>
+            <p>أكتوبر 2025 م</p>
+        </div>
+    </div>
+
+    <!-- ================= PART 1: STRATEGIC PLAN ================= -->
+    <div class="section-separator">
+        <i class="fa-solid fa-chess fa-3x" style="color: white; margin-bottom: 20px;"></i>
+        <h2 class="separator-title">القسم الأول: الإطار الاستراتيجي</h2>
+        <div class="separator-desc">الرؤية، الأهداف، المنهجية، والمواءمة الوطنية</div>
+    </div>
+
+    <!-- P1 Content -->
+    <div class="header-top">
+        <span>مشروع الكوتشينج التعليمي</span>
+        <span>القسم الأول: الاستراتيجية</span>
+    </div>
+
+    <div class="content-section">
+        <div class="section-title-box">
+            <div class="icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+            <h3>ملخص المشروع</h3>
+        </div>
+        <div class="grid-4">
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent);">
+                <div style="color: #666; font-size: 0.9rem;">النطاق</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">50 مدرسة</div>
+            </div>
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent);">
+                <div style="color: #666; font-size: 0.9rem;">المدة</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">11 شهراً</div>
+            </div>
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent);">
+                <div style="color: #666; font-size: 0.9rem;">المنهجية</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">Jim Knight</div>
+            </div>
+            <div class="card" style="text-align: center; border-top: 4px solid var(--accent);">
+                <div style="color: #666; font-size: 0.9rem;">الهدف</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--primary);">تحسين التدريس</div>
+            </div>
+        </div>
+        <div style="margin-top: 20px; background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <p><strong>فكرة المشروع:</strong> مبادرة نوعية تهدف إلى تأهيل وتعيين "كوتش تعليمي" مقيم في كل مدرسة، يعمل كشريك مهني للمعلم داخل الفصل لتحسين الممارسات التدريسية، وقيادة مجتمعات التعلم المهنية (PLC)، مما يساهم في ردم الفجوة بين التدريب النظري والتطبيق العملي الميداني.</p>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-title-box">
+            <div class="icon-box"><i class="fa-solid fa-eye"></i></div>
+            <h3>المواءمة مع برنامج تنمية القدرات البشرية (HCDP)</h3>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <h4><i class="fa-solid fa-star" style="color: var(--accent);"></i> الركيزة 1: تعزيز القيم (الإتقان)</h4>
+                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.95rem; color: #555;">
+                    <li>تعزيز ثقافة "الممارسة المتعمدة" حتى الوصول للإتقان.</li>
+                    <li>تحويل الخطأ من "فشل" إلى "فرصة للتعلم والتحسين".</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4><i class="fa-solid fa-brain" style="color: var(--accent);"></i> الركيزة 3: مهارات المستقبل</h4>
+                <ul style="margin-top: 10px; padding-right: 20px; font-size: 0.95rem; color: #555;">
+                    <li>تمكين المعلم من استراتيجيات الحوار الصفي.</li>
+                    <li>تعزيز التفكير الناقد والإبداعي لدى الطلاب.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="section-title-box">
+            <div class="icon-box"><i class="fa-solid fa-handshake"></i></div>
+            <h3>الشراكات الاستراتيجية</h3>
+        </div>
+        <table class="detail-table">
+            <tr>
+                <th width="30%">الشريك</th>
+                <th>الدور الاستراتيجي</th>
+            </tr>
+            <tr>
+                <td><strong>وزارة الإعلام</strong></td>
+                <td>إطلاق حملة "المعلم الكوتش" وتوثيق قصص النجاح لتحسين الصورة الذهنية.</td>
+            </tr>
+            <tr>
+                <td><strong>وزارة الموارد البشرية</strong></td>
+                <td>اعتماد ساعات الكوتشينج كـ "تطوير مهني" وربط المشروع بمنصة العمل التطوعي لاستقطاب الخبراء المتقاعدين.</td>
+            </tr>
+            <tr>
+                <td><strong>المجتمع والأسرة</strong></td>
+                <td>تفعيل "الكوتشينج الأسري" لتمكين الآباء، وإشراك الطلاب كمقيمين للعملية التعليمية (Student Voice).</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ================= PART 2: STANDARDS MANUAL ================= -->
+    <div class="section-separator">
+        <i class="fa-solid fa-list-check fa-3x" style="color: white; margin-bottom: 20px;"></i>
+        <h2 class="separator-title">القسم الثاني: الدليل الإجرائي للمعايير</h2>
+        <div class="separator-desc">المعايير الخمسة والمؤشرات التفصيلية للتطبيق</div>
+    </div>
+
+    <div class="header-top">
+        <span>مشروع الكوتشينج التعليمي</span>
+        <span>القسم الثاني: المعايير والمؤشرات</span>
+    </div>
+
+    <!-- S1 -->
+    <div class="std-block">
+        <div class="std-header">المعيار الأول: البنية التحتية والدعم القيادي</div>
+        <div class="std-def">التعريف: توفير البيئة المادية والتنظيمية لتمكين الكوتش، بدعم مباشر من القيادة المدرسية.</div>
+        <table class="detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th width="30%">1.1 المكان والمساحة</th>
+                <td>توفر مساحة مكانية خاصة وهادئة تضمن الخصوصية لإجراء جلسات الكوتشينج.</td>
+            </tr>
+            <tr>
+                <th>1.2 الدعم القيادي</th>
+                <td>إعلان قائد المدرسة رسمياً عن تبني المشروع وتوضيح دور الكوتش كشريك للتطوير.</td>
+            </tr>
+            <tr>
+                <th>1.3 الوقت والتفريغ</th>
+                <td>تخصيص ساعات محددة وثابتة في الجدول المدرسي للكوتش.</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- S2 -->
+    <div class="std-block">
+        <div class="std-header">المعيار الثاني: جدارات الكوتش التعليمي</div>
+        <div class="std-def">التعريف: المهارات والسلوكيات المهنية للكوتش وفق معايير الاتحاد الدولي للكوتشينج (ICF).</div>
+        <table class="detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th width="30%">2.1 جدارات ICF</th>
+                <td>تطبيق مهارات الاستماع النشط، وطرح الأسئلة القوية، وبناء الألفة.</td>
+            </tr>
+            <tr>
+                <th>2.2 النمذجة (Modeling)</th>
+                <td>قدرة الكوتش على تنفيذ الاستراتيجيات عملياً داخل الفصل أمام المعلم.</td>
+            </tr>
+            <tr>
+                <th>2.3 الميثاق الأخلاقي</th>
+                <td>الالتزام التام بالسرية وعدم مشاركة تفاصيل الجلسات كأداة تقييم.</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="page-break"></div> <!-- Break for readability -->
+
+    <!-- S3 -->
+    <div class="std-block">
+        <div class="std-header">المعيار الثالث: منهجية دورة التأثير (Impact Cycle)</div>
+        <div class="std-def">التعريف: تطبيق خطوات منهجية جيم نايت (التحديد، التعلم، التحسين) بشكل منظم.</div>
+        <table class="detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th width="30%">3.1 التشخيص (Identify)</th>
+                <td>استخدام تسجيل الفيديو للحصة لتشخيص الواقع بدقة وموضوعية.</td>
+            </tr>
+            <tr>
+                <th>3.2 أهداف PEERS</th>
+                <td>صياغة أهداف: قوية، سهلة، ملهمة، قابلة للقياس، ومركزة على الطالب.</td>
+            </tr>
+            <tr>
+                <th>3.3 التحسين (Improve)</th>
+                <td>متابعة التطبيق وقياس الأثر وإجراء التعديلات حتى الوصول للهدف.</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- S4 -->
+    <div class="std-block">
+        <div class="std-header">المعيار الرابع: التكامل مع إطار الوزارة</div>
+        <div class="std-def">التعريف: تفعيل الأدوات والنماذج الوزارية ضمن عمليات الكوتشينج.</div>
+        <table class="detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th width="30%">4.1 أداة الملاحظة</th>
+                <td>استخدام "بطاقة ملاحظة التدريس" كأداة تشخيصية وليست حكمية.</td>
+            </tr>
+            <tr>
+                <th>4.2 ثقافة التدريس</th>
+                <td>تطبيق أدوات قياس "ثقافة المدرسة" ودعم التعاون المهني.</td>
+            </tr>
+            <tr>
+                <th>4.3 مجتمعات التعلم (PLC)</th>
+                <td>قيادة الكوتش لفرق العمل المدرسية لتحليل البيانات.</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- S5 -->
+    <div class="std-block">
+        <div class="std-header">المعيار الخامس: الأثر والاستدامة</div>
+        <div class="std-def">التعريف: قياس النتائج الملموسة على المعلم والطالب وضمان الاستمرارية.</div>
+        <table class="detail-table" style="margin-bottom: 0;">
+            <tr>
+                <th width="30%">5.1 نسبة التبني</th>
+                <td>نسبة المعلمين المستمرين في التطبيق ذاتياً (> 80%).</td>
+            </tr>
+            <tr>
+                <th>5.2 نواتج الطلاب</th>
+                <td>رصد تطور درجات الطلاب ومستوى انخراطهم في الفصول المستهدفة.</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ================= PART 3: PROJECT MANAGEMENT PLAN ================= -->
+    <div class="section-separator">
+        <i class="fa-solid fa-diagram-project fa-3x" style="color: white; margin-bottom: 20px;"></i>
+        <h2 class="separator-title">القسم الثالث: خطة إدارة المشروع</h2>
+        <div class="separator-desc">خارطة الطريق، دورة الحياة، والجدول الزمني</div>
+    </div>
+
+    <div class="header-top">
+        <span>مشروع الكوتشينج التعليمي</span>
+        <span>القسم الثالث: الخطة التشغيلية</span>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="content-section">
+        <div class="ls-header bg-init">المرحلة 1: البدء (Initiation) - فبراير 2026</div>
+        <table class="detail-table">
+            <tr>
+                <th width="40%">النشاط الرئيسي</th>
+                <th width="30%">المخرج (Deliverable)</th>
+                <th>المسؤول</th>
+            </tr>
+            <tr>
+                <td>اعتماد ميثاق المشروع (Charter)</td>
+                <td>وثيقة الميثاق موقعة</td>
+                <td>اللجنة التوجيهية</td>
+            </tr>
+            <tr>
+                <td>تشكيل فريق العمل التنفيذي</td>
+                <td>قرار إداري بالتشكيل</td>
+                <td>مدير التعليم</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="content-section">
+        <div class="ls-header bg-plan">المرحلة 2: التخطيط (Planning) - مارس/أبريل 2026</div>
+        <table class="detail-table">
+            <tr>
+                <th width="40%">النشاط الرئيسي</th>
+                <th width="30%">المخرج (Deliverable)</th>
+                <th>المسؤول</th>
+            </tr>
+            <tr>
+                <td>اختيار 50 مدرسة وفق المعايير</td>
+                <td>قائمة المدارس المعتمدة</td>
+                <td>فريق التخطيط</td>
+            </tr>
+            <tr>
+                <td>مقابلات وترشيح الكوتشز</td>
+                <td>قائمة 50 كوتش + 5 احتياط</td>
+                <td>لجنة المقابلات</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="content-section">
+        <div class="ls-header bg-exec">المرحلة 3: التنفيذ (Execution) - مايو/نوفمبر 2026</div>
+        <table class="detail-table">
+            <tr>
+                <th width="40%">النشاط الرئيسي</th>
+                <th width="30%">المخرج (Deliverable)</th>
+                <th>المسؤول</th>
+            </tr>
+            <tr>
+                <td>تدريب الكوتشز (المعسكر التدريبي)</td>
+                <td>50 كوتش مؤهل (60 ساعة)</td>
+                <td>إدارة التدريب</td>
+            </tr>
+            <tr>
+                <td>تنفيذ دورات الكوتشينج الميدانية</td>
+                <td>تقارير دورات الإنجاز</td>
+                <td>الكوتشز</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Phase 4 & 5 Combined -->
+    <div class="grid-2">
+        <div>
+            <div class="ls-header bg-ctrl">المراقبة والتحكم (M&C)</div>
+            <table class="detail-table">
+                <tr><td>متابعة لوحة المؤشرات (Dashboard)</td></tr>
+                <tr><td>قياس رضا المستفيدين (استبانات)</td></tr>
+            </table>
+        </div>
+        <div>
+            <div class="ls-header bg-close">الإغلاق (Closing) - ديسمبر</div>
+            <table class="detail-table">
+                <tr><td>تحليل الأثر النهائي (Pre-Post)</td></tr>
+                <tr><td>ورشة الدروس المستفادة والتكريم</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Gantt Chart -->
+    <h3 style="margin-top: 20px;">الجدول الزمني العام (2026)</h3>
+    <div class="gantt-wrapper">
+        <div class="gantt-row" style="font-weight: bold; background: #f3f4f6; padding: 5px;">
+            <div>المهمة</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+        </div>
+        <div class="gantt-row">
+            <div>البدء والاعتماد</div>
+            <div class="gantt-bar bg-init" style="grid-column: 2 / span 1;"></div>
+        </div>
+        <div class="gantt-row">
+            <div>التخطيط والاختيار</div>
+            <div class="gantt-bar bg-plan" style="grid-column: 3 / span 2;"></div>
+        </div>
+        <div class="gantt-row">
+            <div>التدريب والتأهيل</div>
+            <div class="gantt-bar bg-exec" style="grid-column: 5 / span 3;"></div>
+        </div>
+        <div class="gantt-row">
+            <div>التطبيق الميداني</div>
+            <div class="gantt-bar bg-exec" style="grid-column: 8 / span 4;"></div>
+        </div>
+        <div class="gantt-row">
+            <div>الإغلاق والتقارير</div>
+            <div class="gantt-bar bg-close" style="grid-column: 12 / span 1;"></div>
+        </div>
+    </div>
+
+    <!-- Risk Management -->
+    <h3 style="margin-top: 30px;">إدارة المخاطر</h3>
+    <table class="detail-table">
+        <tr>
+            <th>الخطر المحتمل</th>
+            <th>إجراء التخفيف (Mitigation)</th>
+        </tr>
+        <tr>
+            <td>مقاومة المعلمين للتغيير</td>
+            <td>البدء بالمعلمين المبادرين (Early Adopters) وضمان سرية الجلسات.</td>
+        </tr>
+        <tr>
+            <td>العبء الوظيفي للكوتش</td>
+            <td>مبادرة المدرسة بتخفيض نصاب الكوتش بنسبة 30% بدعم من إدارة التعليم.</td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- ================= PART 4: GLOSSARY ================= -->
+    <div class="section-separator" style="height: auto; min-height: 50vh; padding: 30px;">
+        <h2 class="separator-title">القسم الرابع: ملحق المصطلحات</h2>
+    </div>
+
+    <table class="detail-table">
+        <tr>
+            <td class="term-col">الكوتشينج التعليمي</td>
+            <td>شراكة مهنية بين كوتش ومعلم لتحسين الممارسات التدريسية من خلال دورة الملاحظة والتعلم والتحسين.</td>
+        </tr>
+        <tr>
+            <td class="term-col">أهداف PEERS</td>
+            <td>معايير الهدف: قوي (Powerful)، سهل (Easy)، ملهم (Emotionally Compelling)، قابل للوصول (Reachable)، ومركز على الطالب (Student-focused).</td>
+        </tr>
+        <tr>
+            <td class="term-col">دورة التأثير (Impact Cycle)</td>
+            <td>منهجية جيم نايت: التحديد (Identify)، التعلم (Learn)، والتحسين (Improve).</td>
+        </tr>
+        <tr>
+            <td class="term-col">النمذجة (Modeling)</td>
+            <td>قيام الكوتش بتنفيذ الاستراتيجية عملياً أمام المعلم داخل الفصل.</td>
+        </tr>
+        <tr>
+            <td class="term-col">مجتمعات التعلم (PLC)</td>
+            <td>فرق عمل مدرسية تجتمع دورياً لمناقشة بيانات الطلاب وتحسين النتائج.</td>
+        </tr>
+        <tr>
+            <td class="term-col">HCDP</td>
+            <td>برنامج تنمية القدرات البشرية (أحد برامج رؤية 2030).</td>
+        </tr>
+    </table>
+
+    <footer>
+        حقوق النشر © 2025 - محمد علي عبدالله عسيري - جميع الحقوق محفوظة
+    </footer>
+
+</div>
+
+</body>
+</html>
